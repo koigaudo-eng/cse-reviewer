@@ -1,6 +1,22 @@
 /* CSE Reviewer frontend. Configure API_URL after deploying Code.gs. */
 const API_URL = localStorage.getItem('cse_api_url') || 'https://script.google.com/macros/s/AKfycbw2fviTzFFFHN-5RT9aAZR-312Hk9q9KKEGhIint6NlXTBqQybF87lP0tqJ6H-SPvHl/exec';
 const $ = s => document.querySelector(s); const $$ = s => [...document.querySelectorAll(s)];
+// Theme is stored locally and applied to the document root, so it covers every page and quiz state.
+function applyTheme(theme){
+  const chosen = theme === 'dark' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = chosen;
+  localStorage.setItem('cse_theme', chosen);
+  const toggle = $('#themeToggle'), icon = $('#themeIcon'), label = $('#themeLabel');
+  if(toggle){
+    const dark = chosen === 'dark';
+    toggle.setAttribute('aria-pressed', String(dark));
+    toggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    if(icon) icon.textContent = dark ? '☀' : '☾';
+    if(label) label.textContent = dark ? 'Light mode' : 'Dark mode';
+  }
+}
+applyTheme(localStorage.getItem('cse_theme') || 'light');
+$('#themeToggle')?.addEventListener('click', () => applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
 const state = {code:'',isAdmin:false,page:'home',questions:[],quiz:[],answers:{},index:0,mode:'practice',settings:{},startedAt:0,deadline:0,timer:null,practiceSession:'',history:JSON.parse(localStorage.getItem('cse_history')||'[]'),profile:JSON.parse(localStorage.getItem('cse_profile')||'{"name":"Guest"}'),lastResult:null};
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function toast(msg){const t=$('#toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2800)}
