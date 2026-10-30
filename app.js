@@ -1,5 +1,5 @@
 /* CSE Reviewer frontend. Configure API_URL after deploying Code.gs. */
-const API_URL = localStorage.getItem('cse_api_url') || 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+const API_URL = localStorage.getItem('cse_api_url') || 'https://script.google.com/macros/s/AKfycbw2fviTzFFFHN-5RT9aAZR-312Hk9q9KKEGhIint6NlXTBqQybF87lP0tqJ6H-SPvHl/exec';
 const $ = s => document.querySelector(s); const $$ = s => [...document.querySelectorAll(s)];
 const state = {code:'',isAdmin:false,page:'home',questions:[],quiz:[],answers:{},index:0,mode:'practice',settings:{},startedAt:0,deadline:0,timer:null,practiceSession:'',history:JSON.parse(localStorage.getItem('cse_history')||'[]'),profile:JSON.parse(localStorage.getItem('cse_profile')||'{"name":"Guest"}'),lastResult:null};
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
